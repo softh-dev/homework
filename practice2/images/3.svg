@@ -1,0 +1,182 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="1100" viewBox="0 0 1500 1100" role="img" aria-labelledby="title desc">
+  <title id="title">Pi Agent 模块层级与直接依赖关系</title>
+  <desc id="desc">四个纵向层级包含十一个模块，十八条正交箭头从使用方指向被依赖方。</desc>
+  <defs>
+    <filter id="panel-shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#1e293b" flood-opacity="0.10"/>
+    </filter>
+    <filter id="card-shadow" x="-12%" y="-20%" width="124%" height="150%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#334155" flood-opacity="0.14"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="context-stroke"/>
+    </marker>
+    <style>
+      .page-title { font: 700 30px "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; fill: #172033; }
+      .page-subtitle { font: 400 14px "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; fill: #64748b; }
+      .layer-index { font: 700 12px "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; letter-spacing: 1px; }
+      .layer-title { font: 700 18px "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; fill: #243047; }
+      .layer-note { font: 400 12px "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; fill: #64748b; }
+      .module-name { font: 700 17px ui-monospace, "Cascadia Code", monospace; fill: #172033; }
+      .module-desc { font: 400 13px "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; fill: #526077; }
+      .legend { font: 400 12px "Microsoft YaHei", "Noto Sans CJK SC", sans-serif; fill: #526077; }
+      .panel { filter: url(#panel-shadow); }
+      .card { filter: url(#card-shadow); }
+      .edge { fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow); opacity: 0.74; }
+      .coding { stroke: #2563eb; }
+      .env { stroke: #0891b2; }
+      .agent { stroke: #d97706; }
+      .durable { stroke: #16a34a; }
+      .ai { stroke: #e11d48; }
+      .chord { stroke: #7c3aed; }
+    </style>
+  </defs>
+
+  <rect width="1500" height="1100" fill="#f6f8fc"/>
+  <text x="750" y="42" text-anchor="middle" class="page-title">Pi Agent 模块层级与直接依赖关系</text>
+  <text x="750" y="67" text-anchor="middle" class="page-subtitle">箭头方向：使用方 → 被依赖方　·　仅展示 package.json 中的直接运行时依赖</text>
+
+  <!-- Layer panels -->
+  <g class="panel">
+    <rect x="390" y="92" width="720" height="138" rx="18" fill="#eef5ff" stroke="#8eb7f6" stroke-width="1.5"/>
+    <rect x="390" y="92" width="720" height="38" rx="18" fill="#dbeafe"/>
+    <rect x="390" y="112" width="720" height="18" fill="#dbeafe"/>
+
+    <rect x="330" y="285" width="840" height="170" rx="18" fill="#f0fdf7" stroke="#86d9ae" stroke-width="1.5"/>
+    <rect x="330" y="285" width="840" height="40" rx="18" fill="#d9f7e7"/>
+    <rect x="330" y="307" width="840" height="18" fill="#d9f7e7"/>
+
+    <rect x="290" y="520" width="920" height="170" rx="18" fill="#fff9eb" stroke="#e7bd59" stroke-width="1.5"/>
+    <rect x="290" y="520" width="920" height="40" rx="18" fill="#fef0c7"/>
+    <rect x="290" y="542" width="920" height="18" fill="#fef0c7"/>
+
+    <rect x="45" y="775" width="1410" height="220" rx="18" fill="#faf7ff" stroke="#b79ae9" stroke-width="1.5"/>
+    <rect x="45" y="775" width="1410" height="42" rx="18" fill="#ede5fb"/>
+    <rect x="45" y="799" width="1410" height="18" fill="#ede5fb"/>
+  </g>
+
+  <!-- Layer headings -->
+  <g>
+    <rect x="410" y="103" width="74" height="18" rx="9" fill="#2563eb"/>
+    <text x="447" y="116" text-anchor="middle" class="layer-index" fill="#ffffff">LEVEL 3</text>
+    <text x="500" y="118" class="layer-title">应用与环境层</text>
+    <text x="1085" y="117" text-anchor="end" class="layer-note">最终用户入口与远程执行</text>
+
+    <rect x="350" y="296" width="74" height="18" rx="9" fill="#16a34a"/>
+    <text x="387" y="309" text-anchor="middle" class="layer-index" fill="#ffffff">LEVEL 2</text>
+    <text x="440" y="311" class="layer-title">运行时与代理层</text>
+    <text x="1145" y="310" text-anchor="end" class="layer-note">组合会话、任务与模型—工具循环</text>
+
+    <rect x="310" y="531" width="74" height="18" rx="9" fill="#d97706"/>
+    <text x="347" y="544" text-anchor="middle" class="layer-index" fill="#ffffff">LEVEL 1</text>
+    <text x="400" y="546" class="layer-title">核心能力层</text>
+    <text x="1185" y="545" text-anchor="end" class="layer-note">统一模型访问与跨进程对象能力</text>
+
+    <rect x="65" y="787" width="74" height="18" rx="9" fill="#7c3aed"/>
+    <text x="102" y="800" text-anchor="middle" class="layer-index" fill="#ffffff">LEVEL 0</text>
+    <text x="155" y="802" class="layer-title">基础与独立工具层</text>
+    <text x="1430" y="801" text-anchor="end" class="layer-note">不依赖其他内部模块</text>
+  </g>
+
+  <!-- Dependency edges: drawn behind module cards -->
+  <g>
+    <!-- coding-agent -->
+    <path data-edge="coding-&gt;agent" class="edge coding" d="M490 199 V262 H560 V348"/>
+    <path data-edge="coding-&gt;ai" class="edge coding" d="M535 199 V245 H270 V555 H505 V583"/>
+    <path data-edge="coding-&gt;mcp" class="edge coding" d="M570 199 V228 H68 V835 H210 V848"/>
+    <path data-edge="coding-&gt;tui" class="edge coding" d="M605 199 V214 H102 V750 H480 V848"/>
+    <path data-edge="coding-&gt;codemode" class="edge coding" d="M640 199 V202 H136 V734 H750 V848"/>
+
+    <!-- env -->
+    <path data-edge="env-&gt;durable" class="edge env" d="M850 199 V260 H940 V348"/>
+    <path data-edge="env-&gt;chord" class="edge env" d="M900 199 V245 H1240 V555 H940 V583"/>
+
+    <!-- agent -->
+    <path data-edge="agent-&gt;ai" class="edge agent" d="M500 418 V492 H560 V583"/>
+    <path data-edge="agent-&gt;schema" class="edge agent" d="M620 418 V480 H718 V720 H1020 V848"/>
+
+    <!-- durable -->
+    <path data-edge="durable-&gt;chord" class="edge durable" d="M850 418 V494 H940 V583"/>
+    <path data-edge="durable-&gt;ai" class="edge durable" d="M890 418 V468 H742 V548 H620 V583"/>
+    <path data-edge="durable-&gt;codemode" class="edge durable" d="M930 418 V500 H762 V730 H750 V848"/>
+    <path data-edge="durable-&gt;schema" class="edge durable" d="M975 418 V480 H1118 V730 H1045 V848"/>
+    <path data-edge="durable-&gt;telemetry" class="edge durable" d="M1020 418 V464 H1330 V820 H1290 V848"/>
+
+    <!-- ai -->
+    <path data-edge="ai-&gt;schema" class="edge ai" d="M500 653 V755 H1065 V848"/>
+    <path data-edge="ai-&gt;telemetry" class="edge ai" d="M620 653 V738 H1340 V848"/>
+
+    <!-- chord -->
+    <path data-edge="chord-&gt;schema" class="edge chord" d="M870 653 V720 H980 V848"/>
+    <path data-edge="chord-&gt;telemetry" class="edge chord" d="M1000 653 V704 H1250 V848"/>
+  </g>
+
+  <!-- Module cards -->
+  <g class="card">
+    <!-- Level 3 -->
+    <rect x="430" y="142" width="300" height="58" rx="12" fill="#ffffff" stroke="#7aa8ef" stroke-width="1.5"/>
+    <rect x="430" y="142" width="7" height="58" rx="3.5" fill="#2563eb"/>
+    <text x="458" y="168" class="module-name">coding-agent</text>
+    <text x="458" y="188" class="module-desc">编码代理 CLI · pi 命令</text>
+
+    <rect x="770" y="142" width="300" height="58" rx="12" fill="#ffffff" stroke="#67bfd0" stroke-width="1.5"/>
+    <rect x="770" y="142" width="7" height="58" rx="3.5" fill="#0891b2"/>
+    <text x="798" y="168" class="module-name">env</text>
+    <text x="798" y="188" class="module-desc">远程执行环境 · SSH</text>
+
+    <!-- Level 2 -->
+    <rect x="420" y="348" width="280" height="70" rx="12" fill="#ffffff" stroke="#e8b55d" stroke-width="1.5"/>
+    <rect x="420" y="348" width="7" height="70" rx="3.5" fill="#d97706"/>
+    <text x="448" y="378" class="module-name">agent</text>
+    <text x="448" y="400" class="module-desc">通用 Agent 循环</text>
+
+    <rect x="800" y="348" width="280" height="70" rx="12" fill="#ffffff" stroke="#71c99a" stroke-width="1.5"/>
+    <rect x="800" y="348" width="7" height="70" rx="3.5" fill="#16a34a"/>
+    <text x="828" y="378" class="module-name">durable</text>
+    <text x="828" y="400" class="module-desc">持久化会话与任务运行时</text>
+
+    <!-- Level 1 -->
+    <rect x="420" y="583" width="280" height="70" rx="12" fill="#ffffff" stroke="#ee8ba1" stroke-width="1.5"/>
+    <rect x="420" y="583" width="7" height="70" rx="3.5" fill="#e11d48"/>
+    <text x="448" y="613" class="module-name">ai</text>
+    <text x="448" y="635" class="module-desc">统一大模型 API</text>
+
+    <rect x="800" y="583" width="280" height="70" rx="12" fill="#ffffff" stroke="#a68be0" stroke-width="1.5"/>
+    <rect x="800" y="583" width="7" height="70" rx="3.5" fill="#7c3aed"/>
+    <text x="828" y="613" class="module-name">chord</text>
+    <text x="828" y="635" class="module-desc">跨进程对象运行时</text>
+
+    <!-- Level 0 -->
+    <rect x="95" y="848" width="230" height="72" rx="12" fill="#ffffff" stroke="#b79ae9" stroke-width="1.5"/>
+    <text x="210" y="879" text-anchor="middle" class="module-name">mcp</text>
+    <text x="210" y="902" text-anchor="middle" class="module-desc">MCP 客户端</text>
+
+    <rect x="365" y="848" width="230" height="72" rx="12" fill="#ffffff" stroke="#b79ae9" stroke-width="1.5"/>
+    <text x="480" y="879" text-anchor="middle" class="module-name">tui</text>
+    <text x="480" y="902" text-anchor="middle" class="module-desc">终端界面与差分渲染</text>
+
+    <rect x="635" y="848" width="230" height="72" rx="12" fill="#ffffff" stroke="#b79ae9" stroke-width="1.5"/>
+    <text x="750" y="879" text-anchor="middle" class="module-name">codemode</text>
+    <text x="750" y="902" text-anchor="middle" class="module-desc">沙箱 JavaScript 执行</text>
+
+    <rect x="905" y="848" width="230" height="72" rx="12" fill="#ffffff" stroke="#b79ae9" stroke-width="1.5"/>
+    <text x="1020" y="879" text-anchor="middle" class="module-name">schema</text>
+    <text x="1020" y="902" text-anchor="middle" class="module-desc">JSON Schema 校验</text>
+
+    <rect x="1175" y="848" width="230" height="72" rx="12" fill="#ffffff" stroke="#b79ae9" stroke-width="1.5"/>
+    <text x="1290" y="879" text-anchor="middle" class="module-name">telemetry</text>
+    <text x="1290" y="902" text-anchor="middle" class="module-desc">遥测契约与指标</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(295 1035)">
+    <text x="0" y="0" class="legend">连线颜色表示使用方：</text>
+    <line x1="130" y1="-5" x2="164" y2="-5" class="edge coding" marker-end="none"/><text x="174" y="0" class="legend">coding-agent</text>
+    <line x1="284" y1="-5" x2="318" y2="-5" class="edge env" marker-end="none"/><text x="328" y="0" class="legend">env</text>
+    <line x1="385" y1="-5" x2="419" y2="-5" class="edge agent" marker-end="none"/><text x="429" y="0" class="legend">agent</text>
+    <line x1="495" y1="-5" x2="529" y2="-5" class="edge durable" marker-end="none"/><text x="539" y="0" class="legend">durable</text>
+    <line x1="626" y1="-5" x2="660" y2="-5" class="edge ai" marker-end="none"/><text x="670" y="0" class="legend">ai</text>
+    <line x1="724" y1="-5" x2="758" y2="-5" class="edge chord" marker-end="none"/><text x="768" y="0" class="legend">chord</text>
+  </g>
+  <text x="750" y="1075" text-anchor="middle" class="page-subtitle">同层模块仅表示依赖深度相同，不表示彼此依赖</text>
+</svg>

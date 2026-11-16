@@ -1,0 +1,56 @@
+flowchart TB
+  %% 箭头统一表示“使用方 -> 被依赖方”；边来自对应 package.json 的 dependencies。
+  subgraph L3["第 3 层：最终应用与远程环境"]
+    direction LR
+    coding["coding-agent<br/>编码代理 CLI"]
+    env["env<br/>远程执行环境"]
+  end
+
+  subgraph L2["第 2 层：业务运行时与代理循环"]
+    direction LR
+    durable["durable<br/>持久化会话/任务运行时"]
+    agent["agent<br/>通用 Agent 循环"]
+  end
+
+  subgraph L1["第 1 层：跨进程对象与模型访问"]
+    direction LR
+    chord["chord<br/>跨进程对象运行时"]
+    ai["ai<br/>统一 LLM API"]
+  end
+
+  subgraph L0["第 0 层：独立基础能力"]
+    direction LR
+    telemetry["telemetry<br/>遥测契约"]
+    schema["schema<br/>JSON Schema"]
+    tui["tui<br/>终端界面"]
+    codemode["codemode<br/>沙箱代码执行"]
+    mcp["mcp<br/>MCP 客户端"]
+  end
+
+  coding --> agent
+  coding --> ai
+  coding --> tui
+  coding --> codemode
+  coding --> mcp
+  env --> chord
+  env --> durable
+  durable --> chord
+  durable --> ai
+  durable --> codemode
+  durable --> schema
+  durable --> telemetry
+  agent --> ai
+  agent --> schema
+  chord --> schema
+  chord --> telemetry
+  ai --> schema
+  ai --> telemetry
+
+  classDef app fill:#dbeafe,stroke:#2563eb,color:#172554,stroke-width:2px;
+  classDef runtime fill:#dcfce7,stroke:#16a34a,color:#052e16,stroke-width:2px;
+  classDef service fill:#fef3c7,stroke:#d97706,color:#451a03,stroke-width:2px;
+  classDef base fill:#f3e8ff,stroke:#9333ea,color:#3b0764,stroke-width:2px;
+  class coding,env app;
+  class durable,agent runtime;
+  class chord,ai service;
+  class telemetry,schema,tui,codemode,mcp base;
