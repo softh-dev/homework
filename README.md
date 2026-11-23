@@ -1,6 +1,20 @@
-# 实践课 2：组织建仓与 Pi Agent 源码分析实践报告
+# 开源软件实践作业
 
-## 基本信息
+本仓库用于提交个人实践作业。
+
+## 作业目录
+
+- [实践课 2：组织建仓与 Pi Agent 源码分析](practice2/README.md)
+- [实践课 3：Pi Agent 源码获取、依赖安装与本地编译](practice3/README.md)
+
+## 相关仓库
+
+- 小组代码仓库：<https://github.com/softh-dev/pi-hunnu-2026>
+- 本人实际 clone 地址：<https://github.com/softh-dev/pi-hunnu-2026.git>
+
+## 实践课 2：组织建仓与 Pi Agent 源码分析实践报告
+
+### 基本信息
 
 | 项目 | 内容 |
 |---|---|
