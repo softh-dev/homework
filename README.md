@@ -6,6 +6,7 @@
 
 - [实践课 2：组织建仓与 Pi Agent 源码分析](practice2/README.md)
 - [实践课 3：Pi Agent 源码获取、依赖安装与本地编译](practice3/README.md)
+- [实践课 4：Pi Agent 的模型调用与运行流程](practice4/practice-04.md)
 
 ## 相关仓库
 
