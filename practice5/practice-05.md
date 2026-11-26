@@ -106,13 +106,13 @@ handoff.txt 内容如下：
 
 ![S1a 任务 A 会话](images/s1a-session-a-tui.png)
 
-*图 1 提问下方出现 `read handoff.txt`，回复原样给出两行含 `maple-604`；底部日志槽显示「工具结果已加入上下文」和「Agent 即将请求模型」两条，首轮那条已被顶掉。*
+*图 3（S1a）提问下方出现 `read handoff.txt`，回复原样给出两行含 `maple-604`；底部日志槽显示「工具结果已加入上下文」和「Agent 即将请求模型」两条，首轮那条已被顶掉。*
 
 截图 S1b（命令行 + 提问 + read + 回复）：
 
 ![S1b 任务 A 命令行](images/s1b-session-a-cmd.png)
 
-*图 2 上方是 `Get-Content .\handoff.txt -Encoding UTF8` 与 `node .\packages\coding-agent\dist\cli.js`，可与图 1 互补证明启动方式。*
+*图 4（S1b）上方是 `Get-Content .\handoff.txt -Encoding UTF8` 与 `node .\packages\coding-agent\dist\cli.js`，可与图 3 互补证明启动方式。*
 
 ### 2.3 回答原文提出的问题
 
@@ -154,13 +154,13 @@ npm run demo -- --profile maple-604
 
 ![S2a -c 命令行](images/s2a-continue-cmdline.png)
 
-*图 3 上方是 A 阶段结束时的回显，最底部一行是 `PS D:\oss-pi-work\pi-hunnu-2026> node .\packages\coding-agent\dist\cli.js -c`。*
+*图 5（S2a）上方是 A 阶段结束时的回显，最底部一行是 `PS D:\oss-pi-work\pi-hunnu-2026> node .\packages\coding-agent\dist\cli.js -c`。*
 
 截图 S2b（恢复后的会话）：
 
 ![S2b -c 恢复会话](images/s2b-continue-session.png)
 
-*图 4 恢复后仍能看到 A 阶段的提问、`read handoff.txt` 与含 `maple-604` 的回复；B 的提问与回复紧随其后，底部只有 1 条 `[P4] Agent 即将请求模型`，无工具调用记录。*
+*图 6（S2b）恢复后仍能看到 A 阶段的提问、`read handoff.txt` 与含 `maple-604` 的回复；B 的提问与回复紧随其后，底部只有 1 条 `[P4] Agent 即将请求模型`，无工具调用记录。*
 
 ### 3.2 新建会话（/new）
 
@@ -180,7 +180,7 @@ npm run demo -- --profile maple-604
 
 ![S3 /new 新会话](images/s3-new-session.png)
 
-*图 5 只截到 `✓ New session started` 提示、同一句提问与答不出的回复，**`/new` 那一行输入本身没有入镜**，底部状态栏的模型行也被裁掉。这一点据实说明，不影响「新会话没有 A 阶段历史」的结论。*
+*图 7（S3）只截到 `✓ New session started` 提示、同一句提问与答不出的回复，**`/new` 那一行输入本身没有入镜**，底部状态栏的模型行也被裁掉。这一点据实说明，不影响「新会话没有 A 阶段历史」的结论。*
 
 ### 3.3 会话文件佐证
 
@@ -200,96 +200,19 @@ npm run demo -- --profile maple-604
 
 ## 四、图 1 与图 2
 
+本节两张是全文的**正式图**，各自只出现一次，均以 `images/` 下的 SVG 文件呈现；mermaid 源码仅作图源使用，不再与正式图重复并列（如需源文件可另行索取，图表内容以下方 SVG 为准）。
+
 ### 4.1 图 1：单轮工具调用时序
-
-```mermaid
-sequenceDiagram
-    actor U as 用户
-    participant I as 交互与会话
-    participant A as Agent 执行
-    participant M as 模型请求
-    participant R as read 工具
-
-    Note over U,M: 一次用户输入 · 两轮模型请求 · 一次本地 read
-
-    rect rgb(248,250,252)
-    Note over U,M: 第 1 轮
-    U->>I: 输入指令
-    I->>A: session.prompt
-    A->>A: Agent.prompt（agent.ts:382）
-    A->>M: streamAssistantResponse（agent-loop.ts:251）
-    M->>M: streamFunction（agent-loop.ts:413）→ 适配器 → 远端模型 deepseek-v4-pro
-    M-->>A: 返回 tool_calls（read 指令）
-    Note right of M: ① [P4] Agent 即将请求模型（agent-loop.ts:412 上方）<br/>editor.onSubmit（interactive-mode.ts:3325）→ session.prompt（agent-session.ts:2175）<br/>→ L1982 this.agent.prompt → Agent.prompt（agent.ts:382）<br/>→ streamAssistantResponse（:251）→ streamFunction（:413）→ 适配器 → 远端
-    end
-
-    rect rgb(250,245,255)
-    Note over A,R: 工具执行
-    A->>R: 执行 read（工具调用）
-    R->>R: resolveReadPathAsync → createReadStream（L300–308，流式）
-    R-->>A: 工具结果 → 上下文
-    Note over A,R: ② [P4] 工具结果已加入上下文（agent-loop.ts:285 插入）<br/>read.execute（core/tools/read.ts:245）→ resolveReadPathAsync<br/>→ L300–308 createReadStream 流式读取<br/>回流：createToolResultMessage(...) → currentContext.messages.push(result)（agent-loop.ts:283–285）
-    end
-
-    rect rgb(248,250,252)
-    Note over U,M: 第 2 轮
-    A->>M: 第 2 轮请求（带工具结果）
-    M->>M: streamFunction 再次执行
-    M-->>A: 返回最终文本（两行原文）
-    Note right of M: ③ [P4] Agent 即将请求模型（同一插入点，第 2 次执行）<br/>本轮上下文比第 1 轮多一条工具结果消息（handoff.txt 全文）<br/>模型据该结果直接作答，本轮不再返回 tool_calls
-    end
-
-    rect rgb(240,253,244)
-    Note over U,I: 显示回复
-    A-->>I: message_update / message_end
-    I-->>U: 显示回复
-    Note over I,U: message_update（L3649）流式刷新 → message_end（L3685）落最终消息<br/>用户看到两行原文（含 maple-604）
-    end
-```
-
-图片版：[fig1-sequence.svg](images/fig1-sequence.svg)
 
 ![图 1 单轮工具调用时序](images/fig1-sequence.svg)
 
-*图 6 五条生命线、四个阶段（第 1 轮 / 工具执行 / 第 2 轮 / 显示回复）；实线为调用方向，虚线为返回与回调方向，黄色注释框给出代码级调用链与 ①②③ 三条 `[P4]` 日志位置。*
+*图 1 五条生命线（用户 / 交互与会话 / Agent 执行 / 模型请求 / read 工具），按「第 1 轮 → 工具执行 → 第 2 轮 → 显示回复」四个阶段分段；实线为调用方向，虚线为返回与回调方向，黄色注释框给出代码级调用链与 ①②③ 三条 `[P4]` 日志的插入位置。*
 
 ### 4.2 图 2：-c 恢复与 /new 新建对照
 
-```mermaid
-flowchart TB
-    S["A 阶段已结束：Pi 已读到 handoff.txt 并回答了启动命令<br/>（会话中已有：提问、read 工具结果、回复）"]
-    S --> L1
-    S --> R1
-
-    subgraph LEFT["左：恢复旧会话（-c）"]
-        L1["退出后执行 node .\\packages\\coding-agent\\dist\\cli.js -c<br/>--continue 解析：args.ts:111"]
-        L2["打开 A 阶段会话文件<br/>getSessionsDir()：config.ts:674"]
-        L3["从文件恢复历史消息<br/>含 A 的提问与 read 工具结果"]
-        L4["输入：接着上次的待办，起草 README 启动说明"]
-        L5["历史消息 + 本次提问 → 请求模型<br/>streamFunction：agent-loop.ts:413"]
-        L6["回复：写出 npm run demo -- --profile maple-604<br/>未调用工具，1 轮模型调用"]
-        L1 --> L2 --> L3 --> L4 --> L5 --> L6
-    end
-
-    subgraph RIGHT["右：新建会话（/new）"]
-        R1["输入 /new<br/>interactive-mode.ts:3429 → newSession L2108"]
-        R2["创建聊天历史为空的新会话"]
-        R3["输入与左分支完全相同的同一句提问"]
-        R4["只把本次提问发给模型"]
-        R5["模型没有 A 阶段的上下文"]
-        R6["回复：答不出，说明缺少交接单内容<br/>未调用工具，1 轮模型调用"]
-        R1 --> R2 --> R3 --> R4 --> R5 --> R6
-    end
-
-    L6 -.->|消息集合含 A 的工具结果| C["结论：恢复侧把 A 的历史与本次提问一起发给模型；新建侧只有本次提问"]
-    R6 -.-> C
-```
-
-图片版：[fig2-session-compare.svg](images/fig2-session-compare.svg)
-
 ![图 2 恢复与新建对照](images/fig2-session-compare.svg)
 
-*图 7 两分支从同一个起点出发；左分支多出「读会话文件 → 恢复历史」两步，底部结论说明两侧发给模型的消息集合差异，并附三份会话文件的实测大小。*
+*图 2 两分支从同一处起点出发：左分支多出「读会话文件 → 恢复历史」两步，右分支直接新建空会话；底部结论说明两侧发给模型的消息集合差异，并附三份会话文件的实测大小。*
 
 ---
 
@@ -312,5 +235,6 @@ flowchart TB
 第三个体会来自采集证据这件小事。界面日志槽只留两条，直接截图会缺首轮请求；想重定向又先后踩到 PowerShell 包装 stderr 和 GBK 解码两个坑。最后是「重定向到文件 + 显式 UTF-8 读取 + 正则过滤」才拿到干净的三条日志。这说明观察方式本身会影响结论，先想清楚证据长什么样，再决定怎么采集。
 
 最后是对入口和责任边界更清楚了：`streamFunction` 负责发请求，`read.execute` 负责碰文件系统，`message_update` / `message_end` 负责把结果送回界面。模型能说出 `maple-604` 不是因为它读过文件，而是因为工具把文件内容写进了上下文。
+
 
 
