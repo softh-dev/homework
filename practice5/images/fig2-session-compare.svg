@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="880" viewBox="0 0 1080 880" font-family="Microsoft YaHei, Segoe UI, sans-serif">
+  <rect width="1080" height="880" fill="#ffffff"/>
+
+  <defs>
+    <marker id="f2a" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#374151"/>
+    </marker>
+    <marker id="f2g" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#15803d"/>
+    </marker>
+  </defs>
+
+  <text x="540" y="32" text-anchor="middle" font-size="18" font-weight="bold" fill="#1f2937">图 2 -c 恢复旧会话 与 /new 新建会话：发给模型的消息集合对比</text>
+
+  <!-- 共同起点 -->
+  <rect x="330" y="56" width="420" height="64" rx="8" fill="#eef2ff" stroke="#6366f1" stroke-width="1.5"/>
+  <text x="540" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#1e1b4b">A 阶段已结束：Pi 已读到 handoff.txt 并回答了启动命令</text>
+  <text x="540" y="100" text-anchor="middle" font-size="10.5" fill="#3730a3">会话中已有：提问、read 工具结果、含 maple-604 的回复</text>
+
+  <path d="M470,120 V142 H270 V164" fill="none" stroke="#374151" stroke-width="1.5" marker-end="url(#f2a)"/>
+  <path d="M610,120 V142 H810 V164" fill="none" stroke="#374151" stroke-width="1.5" marker-end="url(#f2a)"/>
+
+  <!-- 左栏标题 -->
+  <rect x="90" y="164" width="360" height="34" rx="6" fill="#dcfce7" stroke="#16a34a" stroke-width="1.3"/>
+  <text x="270" y="186" text-anchor="middle" font-size="12" font-weight="bold" fill="#14532d">左：恢复旧会话（-c）</text>
+
+  <!-- 右栏标题 -->
+  <rect x="630" y="164" width="360" height="34" rx="6" fill="#fef3c7" stroke="#d97706" stroke-width="1.3"/>
+  <text x="810" y="186" text-anchor="middle" font-size="12" font-weight="bold" fill="#78350f">右：新建会话（/new）</text>
+
+  <!-- 左栏节点 -->
+  <rect x="90" y="222" width="360" height="58" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.3"/>
+  <text x="270" y="244" text-anchor="middle" font-size="11.5" fill="#14532d">退出后执行 node .\packages\coding-agent\dist\cli.js -c</text>
+  <text x="270" y="264" text-anchor="middle" font-size="10.5" fill="#15803d">--continue 解析位置：args.ts:111</text>
+
+  <rect x="90" y="302" width="360" height="58" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.3"/>
+  <text x="270" y="324" text-anchor="middle" font-size="11.5" fill="#14532d">打开 A 阶段保存的会话文件</text>
+  <text x="270" y="344" text-anchor="middle" font-size="10.5" fill="#15803d">getSessionsDir()：config.ts:674</text>
+
+  <rect x="90" y="382" width="360" height="58" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.3"/>
+  <text x="270" y="404" text-anchor="middle" font-size="11.5" fill="#14532d">从文件恢复历史消息</text>
+  <text x="270" y="424" text-anchor="middle" font-size="10.5" fill="#15803d">含 A 的提问与 read 工具结果</text>
+
+  <rect x="90" y="462" width="360" height="58" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.3"/>
+  <text x="270" y="484" text-anchor="middle" font-size="11.5" fill="#14532d">输入：接着上次的待办，起草 README 启动说明</text>
+  <text x="270" y="504" text-anchor="middle" font-size="10.5" fill="#15803d">与右分支同一句原文</text>
+
+  <rect x="90" y="542" width="360" height="58" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.3"/>
+  <text x="270" y="564" text-anchor="middle" font-size="11.5" fill="#14532d">历史消息 + 本次提问 → 请求模型</text>
+  <text x="270" y="584" text-anchor="middle" font-size="10.5" fill="#15803d">streamFunction：agent-loop.ts:413</text>
+
+  <rect x="90" y="622" width="360" height="64" rx="8" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="270" y="644" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#14532d">回复：写出 npm run demo -- --profile maple-604</text>
+  <text x="270" y="664" text-anchor="middle" font-size="10.5" fill="#15803d">未调用工具，1 轮模型调用</text>
+
+  <!-- 右栏节点 -->
+  <rect x="630" y="222" width="360" height="58" rx="8" fill="#fffbea" stroke="#d97706" stroke-width="1.3"/>
+  <text x="810" y="244" text-anchor="middle" font-size="11.5" fill="#78350f">输入 /new 新建会话</text>
+  <text x="810" y="264" text-anchor="middle" font-size="10.5" fill="#b45309">interactive-mode.ts:3429 → newSession L2108</text>
+
+  <rect x="630" y="302" width="360" height="58" rx="8" fill="#fffbea" stroke="#d97706" stroke-width="1.3"/>
+  <text x="810" y="324" text-anchor="middle" font-size="11.5" fill="#78350f">创建一个聊天历史为空的新会话</text>
+  <text x="810" y="344" text-anchor="middle" font-size="10.5" fill="#b45309">不加载 A 阶段任何消息</text>
+
+  <rect x="630" y="382" width="360" height="58" rx="8" fill="#fffbea" stroke="#d97706" stroke-width="1.3"/>
+  <text x="810" y="404" text-anchor="middle" font-size="11.5" fill="#78350f">输入与左分支完全相同的同一句提问</text>
+  <text x="810" y="424" text-anchor="middle" font-size="10.5" fill="#b45309">同一目录、同一模型 deepseek-v4-pro</text>
+
+  <rect x="630" y="462" width="360" height="58" rx="8" fill="#fffbea" stroke="#d97706" stroke-width="1.3"/>
+  <text x="810" y="484" text-anchor="middle" font-size="11.5" fill="#78350f">只把本次提问发给模型</text>
+  <text x="810" y="504" text-anchor="middle" font-size="10.5" fill="#b45309">streamFunction：agent-loop.ts:413</text>
+
+  <rect x="630" y="542" width="360" height="58" rx="8" fill="#fffbea" stroke="#d97706" stroke-width="1.3"/>
+  <text x="810" y="564" text-anchor="middle" font-size="11.5" fill="#78350f">模型没有 A 阶段的上下文</text>
+  <text x="810" y="584" text-anchor="middle" font-size="10.5" fill="#b45309">消息集合里没有 handoff.txt 内容</text>
+
+  <rect x="630" y="622" width="360" height="64" rx="8" fill="#fde68a" stroke="#d97706" stroke-width="1.5"/>
+  <text x="810" y="644" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#78350f">回复：答不出，说明本会话缺少交接单内容</text>
+  <text x="810" y="664" text-anchor="middle" font-size="10.5" fill="#b45309">未调用工具，1 轮模型调用</text>
+
+  <!-- 栏内竖向箭头 -->
+  <line x1="270" y1="280" x2="270" y2="298" stroke="#374151" stroke-width="1.4" marker-end="url(#f2a)"/>
+  <line x1="270" y1="360" x2="270" y2="378" stroke="#374151" stroke-width="1.4" marker-end="url(#f2a)"/>
+  <line x1="270" y1="440" x2="270" y2="458" stroke="#374151" stroke-width="1.4" marker-end="url(#f2a)"/>
+  <line x1="270" y1="520" x2="270" y2="538" stroke="#374151" stroke-width="1.4" marker-end="url(#f2a)"/>
+  <line x1="270" y1="600" x2="270" y2="618" stroke="#374151" stroke-width="1.4" marker-end="url(#f2a)"/>
+
+  <line x1="810" y1="280" x2="810" y2="298" stroke="#374151" stroke-width="1.4" marker-end="url(#f2a)"/>
+  <line x1="810" y1="360" x2="810" y2="378" stroke="#374151" stroke-width="1.4" marker-end="url(#f2a)"/>
+  <line x1="810" y1="440" x2="810" y2="458" stroke="#374151" stroke-width="1.4" marker-end="url(#f2a)"/>
+  <line x1="810" y1="520" x2="810" y2="538" stroke="#374151" stroke-width="1.4" marker-end="url(#f2a)"/>
+  <line x1="810" y1="600" x2="810" y2="618" stroke="#374151" stroke-width="1.4" marker-end="url(#f2a)"/>
+
+  <!-- 汇合结论 -->
+  <path d="M270,686 V714 H540" fill="none" stroke="#15803d" stroke-width="1.4" stroke-dasharray="6,4"/>
+  <path d="M810,686 V714 H540" fill="none" stroke="#15803d" stroke-width="1.4" stroke-dasharray="6,4" marker-end="url(#f2g)"/>
+
+  <rect x="180" y="724" width="720" height="52" rx="8" fill="#ecfdf5" stroke="#16a34a" stroke-width="1.4"/>
+  <text x="540" y="746" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#14532d">结论：恢复侧发给模型的消息集合包含 A 的提问、read 工具结果与回复；新建侧只有本次提问</text>
+  <text x="540" y="765" text-anchor="middle" font-size="10.5" fill="#15803d">因此同一句提问，左分支能写出完整命令且不读文件，右分支只能回答缺少信息</text>
+
+  <!-- 底部实测标注 -->
+  <rect x="20" y="800" width="1040" height="60" rx="6" fill="#f9fafb" stroke="#e5e7eb"/>
+  <text x="36" y="822" font-size="11" fill="#374151">本次实测会话文件（C:\Users\a1974\.pi\agent\sessions\--D--oss-pi-work-pi-hunnu-2026--）：A 阶段 31,647 B；-c 恢复后 26,946 B；新会话 23,791 B。</text>
+  <text x="36" y="844" font-size="11" fill="#6b7280">三者 cwd 均为 D:\oss-pi-work\pi-hunnu-2026，模型均为 deepseek-v4-pro；文件大小随内容变化，仅作参考标注。</text>
+</svg>
